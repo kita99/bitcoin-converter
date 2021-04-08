@@ -1,8 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
-import counterReducer from '../features/counter/counterSlice';
+import bitcoinConverterReducer from '../features/BitcoinConverter/bitcoinConverterSlice';
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
+    bitcoinConverter: bitcoinConverterReducer,
   },
 });
