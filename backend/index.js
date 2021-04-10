@@ -6,19 +6,38 @@ const io = require('socket.io')(http, {
   }
 });
 
-app.get('/', async (_, res) => {
-  res.json({ status: 'ok' });
-});
+const blockchain = require('./blockchain');
+
+
+let activePeriodicTasks = {};
+const periodicBitcoinAmountUpdate = async (socket, options) =>
+  setInterval(async () => {
+    const bitcoinAmount = await blockchain.currencyToBTC(options.currency, options.value)
+    socket.emit('bitcoinAmountUpdate', { bitcoinAmount })
+  }, 1000 * Number(options.updateInterval));
 
 io.on('connection', async (socket) => {
   socket.on('getTickerList', async () => {
-    io.emit('tickerListUpdate', { tickers: [] });
+    const tickers = await blockchain.getTickers();
+    socket.emit('tickerListUpdate', { tickers });
   });
 
-  socket.on('configure', async data => {
-    console.log(data);
-    io.emit('bitcoinAmountUpdate', { bitcoinAmount: 0.123 });
+  socket.on('configure', async (options) => {
+    if (socket.id in activePeriodicTasks) {
+      clearInterval(activePeriodicTasks[socket.id]);
+    }
+
+    activePeriodicTasks[socket.id] = await periodicBitcoinAmountUpdate(socket, options);
   });
+
+  socket.on('disconnect', () => {
+    clearInterval(activePeriodicTasks[socket.id]);
+    delete activePeriodicTasks[socket.id];
+  });
+});
+
+app.get('/', async (_, res) => {
+  res.json({ status: 'ok' });
 });
 
 http.listen(3000, () => {
