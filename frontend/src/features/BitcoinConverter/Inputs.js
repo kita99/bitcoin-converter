@@ -5,10 +5,12 @@ import useSocket from '../../common/socketio/useSocket';
 
 import {
   selectCurrency,
+  selectTickers,
   selectUpdateInterval,
   selectValue,
   setCurrency,
   setResult,
+  setTickers,
   setUpdateInterval,
   setValue,
 } from './bitcoinConverterSlice';
@@ -18,8 +20,13 @@ const BitcoinConverterInputs = () => {
   const socket = useSocket();
 
   const currency = useSelector(selectCurrency);
+  const tickers = useSelector(selectTickers);
   const updateInterval = useSelector(selectUpdateInterval);
   const value = useSelector(selectValue);
+
+  useEffect(() => {
+    socket.emit('getTickerList');
+  }, [ socket ]);
 
   useEffect(() => {
     if (!currency || !value) {
@@ -32,6 +39,10 @@ const BitcoinConverterInputs = () => {
   useEffect(() => {
     socket.on('bitcoinAmountUpdate', data => {
       dispatch(setResult(data.bitcoinAmount));
+    });
+
+    socket.on('tickerListUpdate', data => {
+      dispatch(setTickers(data.tickers));
     });
   }, [ socket ]);
 
@@ -58,8 +69,9 @@ const BitcoinConverterInputs = () => {
             value={ currency }
           >
             <option value="">Select a currency</option>
-            <option value="USD">USD</option>
-            <option value="EUR">EUR</option>
+            { tickers.map(ticker => (
+              <option key={ ticker } value={ ticker }>{ ticker }</option>
+            )) }
           </select>
         </div>
       </div>
