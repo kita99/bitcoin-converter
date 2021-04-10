@@ -5,6 +5,7 @@ import styled from '@emotion/styled';
 import useSocket from '../../common/socketio/useSocket';
 
 import {
+  incrementUpdateCounter,
   selectCurrency,
   selectTickers,
   selectUpdateInterval,
@@ -92,6 +93,7 @@ const BitcoinConverterInputs = () => {
 
   useEffect(() => {
     socket.on('bitcoinAmountUpdate', data => {
+      dispatch(incrementUpdateCounter());
       dispatch(setResult(data.bitcoinAmount));
     });
 
