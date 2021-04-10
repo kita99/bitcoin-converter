@@ -27,6 +27,9 @@ io.on('connection', async (socket) => {
       clearInterval(activePeriodicTasks[socket.id]);
     }
 
+    const bitcoinAmount = await blockchain.currencyToBTC(options.currency, options.value)
+    socket.emit('bitcoinAmountUpdate', { bitcoinAmount })
+
     activePeriodicTasks[socket.id] = await periodicBitcoinAmountUpdate(socket, options);
   });
 
