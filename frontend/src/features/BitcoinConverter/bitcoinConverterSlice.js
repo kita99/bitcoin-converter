@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  currency: '',
+  currency: 'USD',
   result: 0,
   tickers: [],
-  updateInterval: 0,
+  updateInterval: 5,
   value: 0,
 };
 
