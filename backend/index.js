@@ -8,9 +8,8 @@ const io = require('socket.io')(http, {
 
 const blockchain = require('./blockchain');
 
-
 let activePeriodicTasks = {};
-const periodicBitcoinAmountUpdate = async (socket, options) =>
+const periodicBitcoinAmountUpdate = (socket, options) =>
   setInterval(async () => {
     const bitcoinAmount = await blockchain.currencyToBTC(options.currency, options.value)
     socket.emit('bitcoinAmountUpdate', { bitcoinAmount })
@@ -23,14 +22,15 @@ io.on('connection', async (socket) => {
   });
 
   socket.on('configure', async (options) => {
-    if (socket.id in activePeriodicTasks) {
-      clearInterval(activePeriodicTasks[socket.id]);
-    }
-
     const bitcoinAmount = await blockchain.currencyToBTC(options.currency, options.value)
     socket.emit('bitcoinAmountUpdate', { bitcoinAmount })
 
-    activePeriodicTasks[socket.id] = await periodicBitcoinAmountUpdate(socket, options);
+    if (!(socket.id in activePeriodicTasks)) {
+      activePeriodicTasks[socket.id] = periodicBitcoinAmountUpdate(socket, options);
+    } else {
+      clearInterval(activePeriodicTasks[socket.id]);
+      activePeriodicTasks[socket.id] = periodicBitcoinAmountUpdate(socket, options);
+    }
   });
 
   socket.on('disconnect', () => {
