@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import styled from '@emotion/styled';
 
 import useSocket from '../../common/socketio/useSocket';
 
@@ -14,6 +15,37 @@ import {
   setUpdateInterval,
   setValue,
 } from './bitcoinConverterSlice';
+
+const Container = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const Column = styled.div`
+  width: calc(100% / 4);
+  height: 30px;
+`;
+
+const Input = styled.input`
+  width: 100%;
+  height: 30px;
+  margin: 0;
+  padding: 4px 4px;
+  background-color: #f2fcff;
+  border: 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+`;
+
+const Select = styled.select`
+  width: 100%;
+  height: 30px;
+  margin: 0;
+  background-color: #f2fcff;
+  border: 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+`;
 
 const BitcoinConverterInputs = () => {
   const dispatch = useDispatch();
@@ -47,24 +79,25 @@ const BitcoinConverterInputs = () => {
   }, [ socket ]);
 
   return (
-      <div className="row">
-        <div className="col">
-          <input
+      <Container>
+        <Column>
+          <Input
+            min="5"
             onChange={ e => dispatch(setUpdateInterval(e.target.value)) }
             step="5"
             type="number"
             value={ updateInterval }
           />
-        </div>
-        <div className="col">
-          <input
+        </Column>
+        <Column>
+          <Input
             onChange={ e => dispatch(setValue(e.target.value)) }
             type="text"
             value={ value }
           />
-        </div>
-        <div className="col">
-          <select
+        </Column>
+        <Column>
+          <Select
             onChange={ e => dispatch(setCurrency(e.target.value)) }
             value={ currency }
           >
@@ -72,9 +105,9 @@ const BitcoinConverterInputs = () => {
             { tickers.map(ticker => (
               <option key={ ticker } value={ ticker }>{ ticker }</option>
             )) }
-          </select>
-        </div>
-      </div>
+          </Select>
+        </Column>
+      </Container>
   );
 };
 
