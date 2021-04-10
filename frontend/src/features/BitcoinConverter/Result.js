@@ -31,7 +31,7 @@ const BitcoinConverterResult = () => {
 
   return (
     <Container>
-      <Column style={ { marginTop: '5%' } }>
+      <Column style={ { marginTop: '10%' } }>
         <ResultLabel>The amount of bitcoins for { currency } { value } </ResultLabel>
       </Column>
       <Column>

@@ -23,10 +23,18 @@ const Container = styled.div`
 
 const Column = styled.div`
   width: calc(100% / 4);
-  height: 30px;
+  height: 47px;
+`;
+
+const InputLabel = styled.label`
+  display: block;
+  font-size: 12px;
+  margin-bottom: 10px;
+  font-weight: 300;
 `;
 
 const Input = styled.input`
+  font-size: 18px;
   width: 100%;
   height: 30px;
   margin: 0;
@@ -35,9 +43,16 @@ const Input = styled.input`
   border: 0;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   box-sizing: border-box;
+
+  &:focus,
+  &:hover {
+    outline: 0!important;
+    border-bottom: 2px solid rgba(0, 0, 0, 1);
+  }
 `;
 
 const Select = styled.select`
+  font-size: 18px;
   width: 100%;
   height: 30px;
   margin: 0;
@@ -45,7 +60,14 @@ const Select = styled.select`
   border: 0;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   box-sizing: border-box;
+
+  &:focus,
+  &:hover {
+    outline: 0!important;
+    border-bottom: 2px solid rgba(0, 0, 0, 1);
+  }
 `;
+
 
 const BitcoinConverterInputs = () => {
   const dispatch = useDispatch();
@@ -81,7 +103,9 @@ const BitcoinConverterInputs = () => {
   return (
       <Container>
         <Column>
+          <InputLabel htmlFor="interval">Interval</InputLabel>
           <Input
+            id="interval"
             min="5"
             onChange={ e => dispatch(setUpdateInterval(e.target.value)) }
             step="5"
@@ -90,14 +114,18 @@ const BitcoinConverterInputs = () => {
           />
         </Column>
         <Column>
+          <InputLabel htmlFor="value">Value</InputLabel>
           <Input
+            id="value"
             onChange={ e => dispatch(setValue(e.target.value)) }
             type="text"
             value={ value }
           />
         </Column>
         <Column>
+          <InputLabel htmlFor="currency">Currency</InputLabel>
           <Select
+            id="currency"
             onChange={ e => dispatch(setCurrency(e.target.value)) }
             value={ currency }
           >
