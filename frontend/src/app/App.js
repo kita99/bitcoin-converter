@@ -1,10 +1,17 @@
+import styled from '@emotion/styled';
+
+import Header from '../common/components/Header';
+import MainContainer from '../common/components/MainContainer';
 import BitcoinConverterInputs from '../features/BitcoinConverter/Inputs';
 import BitcoinConverterResult from '../features/BitcoinConverter/Result';
 
 const App = () => (
   <>
-    <BitcoinConverterInputs />
-    <BitcoinConverterResult />
+    <Header />
+    <MainContainer>
+      <BitcoinConverterInputs />
+      <BitcoinConverterResult />
+    </MainContainer>
   </>
 );
 
