@@ -19,7 +19,7 @@ const periodicBitcoinAmountUpdate = async (socket, options) =>
 io.on('connection', async (socket) => {
   socket.on('getTickerList', async () => {
     const tickers = await blockchain.getTickers();
-    socket.emit('tickerListUpdate', { tickers });
+    socket.emit('tickerListUpdate', { tickers: Object.keys(tickers) });
   });
 
   socket.on('configure', async (options) => {
