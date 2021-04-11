@@ -1,11 +1,13 @@
-import Header from '../common/components/Header';
-import MainContainer from '../common/components/MainContainer';
 import BitcoinConverterInputs from '../features/BitcoinConverter/Inputs';
 import BitcoinConverterResult from '../features/BitcoinConverter/Result';
+import MainContainer from '../common/components/MainContainer';
+import TopBar from '../common/components/TopBar';
 
 const App = () => (
   <>
-    <Header />
+    <TopBar>
+      <h2>Bitcoin Converter</h2>
+    </TopBar>
     <MainContainer>
       <BitcoinConverterInputs />
       <BitcoinConverterResult />

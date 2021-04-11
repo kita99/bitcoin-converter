@@ -2,7 +2,11 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from '@emotion/styled';
 
-import useSocket from '../../common/socketio/useSocket';
+import useSocket from '../../common/hooks/useSocket';
+
+import Input from '../../common/components/Input';
+import InputLabel from '../../common/components/InputLabel';
+import Select from '../../common/components/Select';
 
 import {
   incrementUpdateCounter,
@@ -17,6 +21,7 @@ import {
   setValue,
 } from './bitcoinConverterSlice';
 
+
 const Container = styled.div`
   display: flex;
   justify-content: space-between;
@@ -26,49 +31,6 @@ const Column = styled.div`
   width: calc(100% / 4);
   height: 47px;
 `;
-
-const InputLabel = styled.label`
-  display: block;
-  font-size: 12px;
-  margin-bottom: 10px;
-  font-weight: 300;
-`;
-
-const Input = styled.input`
-  font-size: 18px;
-  width: 100%;
-  height: 30px;
-  margin: 0;
-  padding: 4px 4px;
-  background-color: #f2fcff;
-  border: 0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-  box-sizing: border-box;
-
-  &:focus,
-  &:hover {
-    outline: 0!important;
-    border-bottom: 2px solid rgba(0, 0, 0, 1);
-  }
-`;
-
-const Select = styled.select`
-  font-size: 18px;
-  width: 100%;
-  height: 30px;
-  margin: 0;
-  background-color: #f2fcff;
-  border: 0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-  box-sizing: border-box;
-
-  &:focus,
-  &:hover {
-    outline: 0!important;
-    border-bottom: 2px solid rgba(0, 0, 0, 1);
-  }
-`;
-
 
 const BitcoinConverterInputs = () => {
   const dispatch = useDispatch();
@@ -100,7 +62,7 @@ const BitcoinConverterInputs = () => {
     socket.on('tickerListUpdate', data => {
       dispatch(setTickers(data.tickers));
     });
-  }, [ socket ]);
+  }, [ socket, dispatch ]);
 
   return (
       <Container>

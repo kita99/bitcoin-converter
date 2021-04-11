@@ -2,12 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 
+import Subheading from '../../common/components/Subheading';
+import AnimatedHeading from '../../common/components/AnimatedHeading';
+
 import {
   selectCurrency,
   selectResult,
   selectValue,
   selectUpdateCounter,
 } from './bitcoinConverterSlice';
+
 
 const Container = styled.div`
   display: flex;
@@ -18,27 +22,6 @@ const Container = styled.div`
 const Column = styled.div`
   width: 50%;
   text-align: center;
-`;
-
-const ResultLabel = styled.div`
-  font-weight: 300;
-  font-size: 18px;
-`;
-
-const Result = styled.div`
-  font-size: 32px;
-  padding: 12px;
-  font-weight: 500;
-  opacity: 1;
-  -webkit-transition: opacity .15s ease-in-out;
-  -moz-transition: opacity .15s ease-in-out;
-  -ms-transition: opacity .15s ease-in-out;
-  -o-transition: opacity .15s ease-in-out;
-  transition: opacity .15s ease-in-out;
-
-  &.processing {
-    opacity: 0.2;
-  }
 `;
 
 const BitcoinConverterResult = () => {
@@ -61,10 +44,10 @@ const BitcoinConverterResult = () => {
   return (
     <Container>
       <Column style={ { marginTop: '10%' } }>
-        <ResultLabel>The amount of bitcoins for { currency } { value } </ResultLabel>
+        <Subheading>The amount of bitcoins for { currency } { value } </Subheading>
       </Column>
       <Column>
-        <Result className={ processing ? 'processing' : '' }>{ result }</Result>
+        <AnimatedHeading className={ processing ? 'lighter' : '' }>{ result }</AnimatedHeading>
       </Column>
     </Container>
   );
