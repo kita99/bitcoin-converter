@@ -43,6 +43,6 @@ app.get('/', async (_, res) => {
   res.json({ status: 'ok' });
 });
 
-http.listen(3000, () => {
-  console.log('listening on *:3000');
+http.listen(8000, () => {
+  console.log('listening on *:8000');
 });
